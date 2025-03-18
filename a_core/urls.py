@@ -28,6 +28,8 @@ urlpatterns = [
     path("", include("a_home.urls")),
     # PROFILE.
     path("profile/", include("a_user.urls")),
+    # BLOG.
+    path("blog/", include("a_blog.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

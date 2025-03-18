@@ -1,6 +1,6 @@
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import redirect
 
 
 def home_view(request: HttpRequest):
-    return render(request, "a_home/home.html")
+    return redirect("/blog")
