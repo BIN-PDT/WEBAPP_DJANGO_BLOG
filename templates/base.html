@@ -295,7 +295,7 @@
 			}
 		</style>
 	</head>
-	<body class="bg-gray-100">
+	<body class="bg-gray-100 {% block body_class %}{% endblock %}">
 		{% include "includes/messages.html" %}
 		{% include "includes/header.html" %}
 
