@@ -3,6 +3,10 @@ from django.db import models
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
+from wagtail.search import index
+from taggit.models import TaggedItemBase
+from modelcluster.fields import ParentalKey
+from modelcluster.contrib.taggit import ClusterTaggableManager
 
 
 class BlogPage(Page):
@@ -12,9 +16,19 @@ class BlogPage(Page):
     content_panels = Page.content_panels + [FieldPanel("body")]
 
     def get_context(self, request, *args, **kwargs):
-        articles = self.get_children().live().order_by("-first_published_at")
+        tag = request.GET.get("tag")
+        if tag:
+            articles = (
+                ArticlePage.objects.live()
+                .filter(tags__name=tag)
+                .order_by("-first_published_at")
+            )
+        else:
+            articles = self.get_children().live().order_by("-first_published_at")
+
         context = super().get_context(request, *args, **kwargs)
         context["articles"] = articles
+        context["tag"] = tag
         return context
 
 
@@ -29,6 +43,16 @@ class ArticlePage(Page):
         on_delete=models.SET_NULL,
     )
     caption = models.CharField(max_length=80, blank=True)
+    tags = ClusterTaggableManager(through="ArticleTag", blank=True)
+
+    def get_tags(self):
+        return ", ".join(tag.name for tag in self.tags.all())
+
+    def get_author_realname(self):
+        return self.owner.profile.realname
+
+    def get_author_username(self):
+        return self.owner.username
 
     template = "a_blog/article_page.html"
     content_panels = Page.content_panels + [
@@ -37,4 +61,20 @@ class ArticlePage(Page):
         FieldPanel("caption"),
         FieldPanel("body"),
         FieldPanel("date"),
+        FieldPanel("tags"),
     ]
+    search_fields = Page.search_fields + [
+        index.SearchField("intro"),
+        index.SearchField("body"),
+        index.SearchField("get_tags"),
+        index.SearchField("get_author_realname"),
+        index.SearchField("get_author_username"),
+    ]
+
+
+class ArticleTag(TaggedItemBase):
+    content_object = ParentalKey(
+        ArticlePage,
+        related_name="tagged_items",
+        on_delete=models.CASCADE,
+    )
