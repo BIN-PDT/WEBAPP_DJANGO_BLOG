@@ -1,0 +1,65 @@
+{% extends "layouts/box.html" %}
+
+
+{% block content %}
+    <div class="flex items-start justify-between">
+        <h1 class="mb-10 font-2">Account Settings</h1>
+    </div>
+
+    <div
+        x-cloak
+        x-data="{ emailEdit: false }"
+        class="flex flex-col gap-5">
+        <!-- EMAIL ADDRESS -->
+        <div class="flex flex-wrap md:flex-nowrap min-h-14">
+            <h3
+                class="basis-full md:basis-[25%] font-1 tracking-wide"
+                x-bind:class="emailEdit && 'mb-2 md:mb-0 md:basis-[20%]'">
+                Email Address
+            </h3>
+            <div class="grow">
+                <p
+                    x-show="!emailEdit"
+                    class="mb-0 font-4 text-gray-500">
+                    {{ user.email }}<br/>
+                    {% if user.emailaddress_set.first.verified %}
+                        <span class="font-1 tracking-wide text-green-500">Verified</span>
+                    {% else %}
+                        <a
+                            href="{% url "verify-email" %}"
+                            class="cursor-pointer font-1 tracking-wide text-red-500 hover:underline">
+                            Verified
+                        </a>
+                    {% endif %}
+                </p>
+                <form
+                    method="POST"
+                    x-show="emailEdit"
+                    class="pr-7 flex items-center justify-between gap-2">
+                    {% csrf_token %}
+                    <div class="grow font-4">{{ form }}</div>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="basis-[10%] font-1">
+                <a
+                    @click="emailEdit = !emailEdit"
+                    x-text="emailEdit ? 'Cancel' : 'Change'"
+                    class="tracking-wide text-blue-500 hover:underline cursor-pointer"
+                    ></a>
+            </div>
+        </div>
+        <!-- DELETE ACCOUNT -->
+        <div class="flex justify-between">
+            <h3 class="font-1 tracking-wide">Delete Account</h3>
+            <div class="basis-[10%] font-1">
+                <a
+                    href="{% url "profile-delete" %}"
+                    class="tracking-wide text-red-500 hover:underline"
+                    >Delete</a
+                >
+            </div>
+        </div>
+    </div>
+{% endblock %}

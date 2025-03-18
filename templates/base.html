@@ -1,0 +1,306 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Django</title>
+		<link
+			rel="shortcut icon"
+			href="{% static "images/logo.png" %}"
+			type="image/x-icon" />
+		<!-- GOOGLE FONT -->
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap"
+			rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
+			rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap"
+			rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<!-- ALPINE JS -->
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<!-- HTMX -->
+		<script src="https://unpkg.com/htmx.org@2.0.2"></script>
+		<!-- TAILWIND CSS -->
+		<script src="https://cdn.tailwindcss.com"></script>
+		<style type="text/tailwindcss">
+			[x-cloak] {
+				display: none !important;
+			}
+
+			:root {
+				--primary: rgb(88, 40, 244);
+				--primary-hover: rgb(69, 29, 200);
+				--black: #1f2937;
+				--font-1: "New Amsterdam", sans-serif;
+				--font-2: "Lobster", sans-serif;
+				--font-3: "Calistoga", serif;
+				--font-4: "Barlow Condensed", system-ui;
+			}
+
+			.font-1 {
+				font-family: var(--font-1);
+				font-weight: 400;
+				font-style: normal;
+			}
+
+			.font-2 {
+				font-family: var(--font-2);
+				font-weight: 400;
+				font-style: normal;
+			}
+
+			.font-3 {
+				font-family: var(--font-3);
+				font-weight: 400;
+				font-style: normal;
+			}
+
+			.font-4 {
+				font-family: var(--font-4);
+				font-weight: 400;
+				font-style: normal;
+			}
+
+			html,
+			body {
+				margin: 0;
+				min-height: 100%;
+			}
+
+			h1 {
+				@apply text-4xl font-bold mb-4;
+			}
+
+			h2 {
+				@apply text-2xl font-bold mb-3;
+			}
+
+			h3 {
+				@apply text-lg font-bold;
+			}
+
+			.button,
+			button,
+			[type="submit"],
+			[type="button"] {
+				width: fit-content;
+				min-height: 3.25rem;
+				padding: 0 1rem;
+				border-radius: 0.5rem;
+				display: inline-flex;
+				flex-shrink: 0;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: center;
+				transition-property: transform;
+				transition-duration: 0.2s;
+				font-family: var(--font-1);
+				letter-spacing: 0.05em;
+				text-align: center;
+				color: white;
+				background-color: var(--primary);
+				box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1);
+				cursor: pointer;
+			}
+
+			.button:hover,
+			button:hover,
+			[type="submit"]:hover,
+			[type="button"]:hover {
+				background-color: var(--primary-hover);
+			}
+
+			.button:active,
+			button:active,
+			[type="submit"]:active,
+			[type="button"]:active {
+				transform: scale(0.95);
+			}
+
+			p {
+				margin-bottom: 1rem;
+			}
+
+			form p {
+				display: flex;
+				align-items: center;
+			}
+
+			form p label {
+				width: 7rem;
+			}
+
+			label {
+				margin: 6px 0 3px;
+				font-family: var(--font-3);
+				font-style: italic;
+			}
+
+			label,
+			input {
+				display: inline-block;
+			}
+
+			input,
+			textarea {
+				width: 100%;
+			}
+
+			input[type="file"],
+			select {
+				background-color: white;
+				padding-left: 0;
+			}
+
+			.textarea,
+			textarea {
+				margin-bottom: 1rem;
+			}
+
+			.textarea,
+			textarea,
+			input {
+				border-radius: 0.5rem;
+				padding: 1rem 1.2rem;
+				background-color: rgba(232, 240, 254, 1);
+			}
+
+			.nav-items > li > a {
+				@apply h-12 px-5 flex items-center gap-3 text-xl rounded-lg hover:bg-gray-700;
+			}
+
+			.hover-list > * {
+				@apply hover:bg-gray-100 rounded-md transition duration-150;
+			}
+
+			.hover-list > * > a {
+				@apply p-2 flex items-center text-sm;
+			}
+
+			.secondary-action {
+				background-color: white;
+				color: rgba(0, 0, 0, 0.6);
+				border: 1px solid rgba(0, 0, 0, 0.3);
+			}
+
+			.secondary-action:hover {
+				background-color: rgba(0, 0, 0, 0.05);
+			}
+
+			.button-red {
+				@apply inline-flex bg-red-500;
+			}
+
+			.button-red:hover {
+				@apply bg-red-600;
+			}
+
+			.errorlist {
+				font-family: var(--font-1);
+				@apply my-5 !block rounded-lg border-2 border-red-500 text-base text-[#FD5831] tracking-wider;
+			}
+
+			.errorlist > li {
+				@apply p-2 pl-4;
+			}
+
+			/* ALLAUTH */
+
+			.allauth {
+				@apply !p-7;
+			}
+
+			.allauth a {
+				@apply hover:underline;
+			}
+
+			.allauth h1 {
+				font-family: var(--font-2);
+				@apply text-center;
+			}
+
+			.allauth p {
+				font-family: var(--font-1);
+				@apply text-xl text-center tracking-wide;
+			}
+
+			.allauth p > a {
+				@apply text-blue-400;
+			}
+
+			.allauth form > p {
+				@apply relative;
+			}
+
+			.allauth form + p {
+				@apply mt-5 mb-0 text-base text-gray-500;
+			}
+
+			.allauth form > p > label {
+				@apply hidden;
+			}
+
+			.allauth label[for="id_remember"] {
+				font-family: var(--font-1);
+				@apply block w-auto mr-2 text-base not-italic;
+			}
+
+			.allauth #id_password_helptext {
+				@apply absolute right-0 -bottom-11 ml-auto z-10 text-base;
+			}
+
+			.allauth input[name="remember"] {
+				width: auto;
+			}
+
+			.allauth form > p > input {
+				font-family: var(--font-4);
+				@apply text-base tracking-wider placeholder:!tracking-wide placeholder:italic;
+			}
+
+			.allauth form > p > input[type="password"] {
+				@apply tracking-widest;
+			}
+
+			.allauth form > ul,
+			.allauth form > ul + p {
+				@apply hidden;
+			}
+
+			.allauth form > ul.errorlist + p {
+				@apply block;
+			}
+
+			.allauth form > button {
+				@apply block mt-10 mx-auto px-10;
+			}
+		</style>
+	</head>
+	<body class="bg-gray-100">
+		{% include "includes/messages.html" %}
+		{% include "includes/header.html" %}
+
+		<div class="{% block control_class %}{% endblock %}">
+			{% block layout %}{% endblock %}
+		</div>
+	</body>
+</html>

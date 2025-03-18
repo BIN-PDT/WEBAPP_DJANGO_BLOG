@@ -1,0 +1,94 @@
+{% load static %}
+
+
+<header
+	x-data="{ mobileNavOpen: false }"
+	class="md:flex items-center justify-between h-20 [&>*]:px-6 sticky top-0 z-40 bg-gray-800 text-white select-none">
+	<div class="h-full flex items-center justify-between">
+		<logo class="flex items-center">
+			<a
+				href="{% url "home" %}"
+				class="flex items-center gap-2">
+				<img
+					class="w-8 mr-1 -mt-1"
+					src="{% static "images/logo.png" %}"
+					alt="" />
+				<span class="font-1 text-2xl title-blip">Django Starter</span>
+			</a>
+		</logo>
+
+		<mobile-icon
+			@click="mobileNavOpen = !mobileNavOpen"
+			class="block md:hidden">
+			<a
+				class="size-12 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-700">
+				<img
+					x-cloak
+					x-show="!mobileNavOpen"
+					class="size-6"
+					src="https://img.icons8.com/small/64/ffffff/menu.png"
+					alt="" />
+				<img
+					x-cloak
+					x-show="mobileNavOpen"
+					class="size-6"
+					src="https://img.icons8.com/small/64/ffffff/delete-sign.png"
+					alt="" />
+			</a>
+		</mobile-icon>
+	</div>
+
+	<nav
+		x-cloak
+		x-show="mobileNavOpen"
+		x-transition:enter="duration-300 ease-out"
+		x-transition:enter-start="opacity-0 -translate-y-96"
+		x-transition:enter-end="opacity-100 translate-y-0"
+		x-transition:leave="duration-150 ease-out"
+		x-transition:leave-start="opacity-100 translate-y-0"
+		x-transition:leave-end="opacity-0 -translate-y-96"
+		class="absolute md:relative top-0 -z-10 md:!block w-full h-screen md:w-auto md:h-auto bg-gray-800">
+		<ul
+			x-data="{ dropdownAccountOpen: false, dropdownChatOpen: false }"
+			class="h-full flex flex-col md:flex-row items-center justify-center gap-8 md:gap-0 nav-items font-1 title-blip [&>li>a]:w-40 md:[&>li>a]:w-auto [&>li>a]:justify-center">
+			{% if user.is_authenticated %}
+				<li><a href="{% url "home" %}">HOME</a></li>
+				<li class="relative">
+					<a
+						@click="dropdownAccountOpen = !dropdownAccountOpen"
+						@click.away="dropdownAccountOpen = false"
+						class="cursor-pointer">
+						{{ user.username }}
+						<img
+							x-bind:class="dropdownAccountOpen && 'rotate-180 duration-300'"
+							class="w-4"
+							src="https://img.icons8.com/ios-glyphs/30/777777/expand-arrow--v1.png"
+							alt="" />
+					</a>
+
+					<div
+						x-cloak
+						x-show="dropdownAccountOpen"
+						x-transition:enter="duration-300 ease-out"
+						x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
+						x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+						x-transition:leave="duration-150 ease-out"
+						x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+						x-transition:leave-end="opacity-0 -translate-y-5 scale-90"
+						class="w-40 p-2 absolute z-20 right-0 bg-white text-black shadow rounded">
+						<ul
+							class="hover-list [&>li>a]:text-base [&>li>a]:justify-end">
+							<li><a href="{% url "profile" %}">My Profile</a></li>
+							<li><a href="{% url "profile-edit" %}">Edit Profile</a></li>
+							<li><a href="{% url "profile-settings" %}">Settings</a></li>
+							<li><a href="{% url "account_logout" %}">Logout</a></li>
+						</ul>
+					</div>
+				</li>
+			{% else %}
+				<li><a href="{% url "account_login" %}">Log In</a></li>
+				<li><a href="{% url "account_signup" %}?next={% url "profile-onboarding" %}">Sign Up</a></li>
+			{% endif %}
+		</ul>
+	</nav>
+</header>

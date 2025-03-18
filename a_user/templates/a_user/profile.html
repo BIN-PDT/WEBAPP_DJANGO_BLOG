@@ -1,0 +1,31 @@
+{% extends "layouts/blank.html" %}
+
+
+{% block content %}
+    <div class="flex flex-col items-center">
+        <div
+            x-data="{ modal_open: false }"
+            class="w-full md:w-[36rem] lg:w-[50rem]">
+            <div class="card p-6">
+                <div class="text-center flex flex-col items-center">
+                    <img
+                        class="w-36 h-36 rounded-full object-cover mb-4"
+                        src="{{ profile.avatar }}" />
+                    <div class="max-w-md">
+                        <h1 class="font-3">{{ profile.name }}</h1>
+                        <div
+                            class="mb-2 -mt-2 flex items-center justify-center gap-1 font-4 text-gray-400 !italic">
+                            <img
+                                class="object-cover h-6 opacity-60"
+                                src="https://img.icons8.com/glyph-neue/100/quill-pen.png" />
+                            @{{ profile.user.username }}
+                        </div>
+                        <div class="my-5 font-1 text-3xl">
+                            {{ profile.biography|default:"Professional Procrastinator"|linebreaksbr }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

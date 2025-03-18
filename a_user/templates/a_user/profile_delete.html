@@ -1,0 +1,25 @@
+{% extends "layouts/box.html" %}
+
+
+{% block content %}
+    <h1 class="font-2">Delete Account</h1>
+    <p class="font-1 text-xl">
+        Are you sure you want to delete your account?<br/>
+        <span class="text-red-600">This action cannot be undone!</span>
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="text-right">
+            <button type="submit" class="button-red mt-6">
+                Yes, I want to delete my account
+            </button>
+            <a
+                class="ml-2 button secondary-action"
+                href="{{ request.META.HTTP_REFERER }}">
+                Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}

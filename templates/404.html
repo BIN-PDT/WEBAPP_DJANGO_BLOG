@@ -1,0 +1,17 @@
+{% extends "layouts/blank.html" %}
+
+
+{% block content %}
+    <div class="max-w-4xl mx-auto p-8 text-center flex flex-col items-center justify-center">
+        <h1 class="font-2">Page not found</h1>
+        <p class="mt-0 mb-8 font-1 text-2xl tracking-wide">
+            Error 404 - This page doesn't exist or is unavailable!
+        </p>
+
+        <a
+            class="button"
+            href="{% url "home" %}">
+            Go Back to Home
+        </a>
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "layouts/box.html" %}
+
+
+{% block content %}
+    <h1 class="mb-2 font-2">
+        {% if is_onboarding %}Complete Profile{% else %}Edit Profile{% endif %}
+    </h1>
+    <div class="mb-5 flex flex-col items-center text-center">
+        <img
+            id="avatar"
+            class="size-36 mb-4 object-cover rounded-full"
+            src="{{ user.profile.avatar }}" />
+        <div class="max-w-md font-3">
+            <h1 id="realname">{{ user.profile.name }}</h1>
+            <div
+                class="mb-2 -mt-2 flex items-center justify-center gap-1 font-4 text-gray-400 !italic">
+                <img
+                    class="object-cover h-6 opacity-60"
+                    src="https://img.icons8.com/glyph-neue/100/quill-pen.png" />
+                @{{ user.username }}
+            </div>
+        </div>
+    </div>
+
+    <form
+        method="POST"
+        enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="font-4">{{ form.as_p }}</div>
+
+        <div class="text-right">
+            <button type="submit">Save Profile</button>
+            {% if is_onboarding %}
+                <a
+                    class="ml-2 button secondary-action"
+                    href="{% url "home" %}">
+                    Skip
+                </a>
+            {% else %}
+                <a
+                    class="ml-2 button secondary-action"
+                    href="{{ request.META.HTTP_REFERER }}">
+                    Cancel
+                </a>
+            {% endif %}
+        </div>
+    </form>
+
+    <script>
+        // THIS UPDATES THE AVATAR.
+        const fileInput = document.querySelector('input[type="file"]');
+
+        fileInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            const image = document.querySelector("#avatar");
+
+            if (file && file.type.includes("image")) {
+                const url = URL.createObjectURL(file);
+                image.src = url;
+            }
+        });
+        // THIS UPDATES THE NAME.
+        const realnameInput = document.getElementById("id_realname");
+        const realnameOutput = document.getElementById("realname");
+
+        realnameInput.addEventListener("input", (event) => {
+            realnameOutput.innerText = event.target.value;
+        });
+    </script>
+{% endblock %}

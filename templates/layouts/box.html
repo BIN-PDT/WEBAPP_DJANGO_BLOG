@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+
+{% block layout %}
+<content class="block max-w-3xl mx-auto md:p-12">
+	<div class="w-full p-8 md:drop-shadow-2xl bg-white shadow-black rounded-2xl">
+		{% block content %}{% endblock %}
+	</div>
+</content>
+{% endblock %}
