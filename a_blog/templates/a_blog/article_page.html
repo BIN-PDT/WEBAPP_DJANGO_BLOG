@@ -5,20 +5,21 @@
 {% block control_class %}article{% endblock %}
 
 {% block content %}
-    <div class="max-w-4xl mx-auto px-8 py-24">
-        <h1>{{ page.title }}</h1>
+    <div class="max-w-4xl mx-auto px-12 py-14">
+        <h1 class="font-2">{{ page.title }}</h1>
         <a
             href="{% url "profile" page.owner.username %}"
-            class="flex items-center gap-1 mb-2">
+            class="flex items-center gap-2 mb-2">
             <img
-                class="h-8 w-8 rounded-full object-cover"
+                class="size-10 rounded-full object-cover"
                 src="{{ page.owner.profile.avatar }}"
                 alt="Avatar" />
-            {{ page.owner.profile.name }}
+            <span class="font-3">{{ page.owner.profile.name }}</span>
         </a>
+
         <div class="flex justify-between items-center">
-            <p class="text-sm text-neutral-500">{{ page.date }}</p>
-            <div class="flex items-center gap-4">
+            <p class="font-4 text-neutral-500">{{ page.date }}</p>
+            <div class="flex items-center gap-3">
                 <a
                     class="text-gray-500"
                     href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
@@ -51,7 +52,6 @@
                             d="M13.346 10.932 18.88 4.5h-1.311l-4.805 5.585L8.926 4.5H4.5l5.803 8.446L4.5 19.69h1.311l5.074-5.898 4.053 5.898h4.426zM11.55 13.02l-.588-.84-4.678-6.693h2.014l3.776 5.4.588.842 4.907 7.02h-2.014z"></path>
                     </svg>
                 </a>
-
                 <span class="flex items-center text-gray-800 text-sm gap-1">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -69,39 +69,41 @@
                             stroke-linejoin="round"
                             d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
-                    <span>{{ page.views }}</span>
+                    <span class="font-1">{{ page.views }}</span>
                 </span>
             </div>
         </div>
 
-        <p class="text-2xl font-serif italic text-neutral-800">{{ page.intro }}</p>
+        <p class="text-2xl font-4 !italic text-neutral-800">{{ page.intro }}</p>
 
         <div class="mb-8">
             <figure>{% image page.image original class="w-full" %}</figure>
 
             {% if page.caption %}
-                <figcaption class="text-sm text-neutral-500 text-center mt-2 mb-4">
+                <figcaption class="font-4 text-neutral-500 text-center mt-2 mb-4">
                     {{ page.caption }}
                 </figcaption>
             {% endif %}
         </div>
 
-        <p>{{ page.body|richtext }}</p>
+        <div class="font-4 text-lg">
+            <p>{{ page.body|richtext }}</p>
+        </div>
 
         {% if page.tags %}
-            <div class="pt-6 flex gap-2">
+            <div class="mt-6 flex justify-end gap-2">
                 {% for tag in page.tags.all %}
                     <a
                         href="{{ page.get_parent.url }}?tag={{ tag }}"
-                        class="px-4 py-2 border border-gray-400 rounded-full">
+                        class="inline-block min-w-16 px-4 py-2 border border-gray-400 rounded-full font-4 text-center tracking-wide !italic">
                         {{ tag.name }}
                     </a>
                 {% endfor %}
             </div>
         {% endif %}
 
-        <div class="mt-4 inline-block">
-            <a href="{{ page.get_parent.url }}" class="underline">Return to blog</a>
+        <div class="mt-6 text-lg text-right">
+            <a href="{{ page.get_parent.url }}" class="font-1 underline">Return to blog</a>
         </div>
     </div>
 {% endblock %}

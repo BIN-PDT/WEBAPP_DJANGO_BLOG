@@ -6,8 +6,8 @@
 {% block control_class %}blog{% endblock %}
 
 {% block content %}
-	<div class="max-w-[1600px] mx-auto px-8 py-24">
-		<div class="flex justify-center pb-6">
+	<div class="max-w-[1600px] mx-auto px-12 py-14">
+		<div class="flex flex-col items-center pb-5">
 			<form
 				action="{% url "search-articles" %}"
 				method="get"
@@ -25,34 +25,32 @@
 				<input
 					type="text"
 					name="query"
-					class="pl-12 pr-4 py-4 w-full m-auto border-gray-300 rounded-full bg-zinc-800 text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:border-gray-500"
+					class="pl-12 pr-4 py-4 w-full m-auto border-gray-300 rounded-full bg-zinc-800 font-4 tracking-wider text-zinc-200 placeholder-zinc-500 placeholder:italic outline-0"
 					placeholder="Search articles ..."
 					value="{% if search_query %}{{ search_query }}{% endif %}" />
 			</form>
+			{% if tag %}
+				<p class="w-full lg:w-2/3 mt-4 mb-0 font-1 text-lg text-neutral-400">
+					Articles tagged "{{ tag }}"
+				</p>
+			{% endif %}
 		</div>
-		
 
-		{% if tag %}
-			<div class="text-neutral-400">
-				Articles tagged "{{ tag }}"
-			</div>
-		{% endif %}
-		
 		{% if articles %}
 			<div class="grid mt-8 gap-12 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 				{% for article in articles %}
 					<article
-						class="relative rounded-2xl border border-gray-500 hover:border-gray-400 bg-neutral-900 text-white">
+						class="relative rounded-2xl bg-neutral-900 text-white outline outline-gray-500 hover:outline-gray-400">
 						<a
 							href="{% pageurl article %}"
 							class="flex flex-col justify-between h-full p-4">
 							<div>
-								<h2>{{ article.title }}</h2>
-								<p>{{ article.specific.intro }}</p>
+								<h2 class="font-2">{{ article.title }}</h2>
+								<p class="font-4">{{ article.specific.intro }}</p>
 							</div>
 							<div>
 								<div class="flex justify-between items-center">
-									<p class="text-sm text-neutral-500">{{ article.specific.date }}</p>
+									<p class="font-4 text-sm text-neutral-500">{{ article.specific.date }}</p>
 									<p class="flex items-center text-neutral-500 text-sm gap-1">
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -70,20 +68,20 @@
 												stroke-linejoin="round"
 												d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
 										</svg>
-										<span>{{ article.specific.views }}</span>
+										<span class="font-1">{{ article.specific.views }}</span>
 									</p>
 								</div>
 								<figure class="mb-4">
 									{% image article.specific.image fill-314x166 class="w-full rounded-lg" %}
 								</figure>
-								<span class="hover:underline">Read more</span>
+								<div class="hover:underline font-4 text-right">Read more</div>
 							</div>
 						</a>
 					</article>
 				{% endfor %}
 			</div>
 		{% else %}
-			<div class="text-center text-neutral-400">
+			<div class="font-1 text-lg text-center text-neutral-400">
 				No articles found.
 			</div>
 		{% endif %}
