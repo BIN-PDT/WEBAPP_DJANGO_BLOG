@@ -6,6 +6,8 @@ git clone https://github.com/BIN-PDT/WEBAPP_DJANGO_WAGTAIL.git && rm -rf WEBAPP_
 
 _For privacy reasons, replace the sensitive information in this project with your own._
 
+-   _Register OAuth Application with each Social Provider to obtain `CLIENT_ID` & `CLIENT_SECRET`_.
+
 -   _Generate `SECRET_KEY`_.
 
     ```
